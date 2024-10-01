@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+    <script src="vega_lite_vis.js"></script>
+    <title>Total patent application related to AI as in 2020</title>
+</head>
+<body>
+    <h1>Total patent application related to AI as in 2020</h1>
+
+    <!-- Description/Remark Section -->
+    <p>
+        This visualization represents the total number of patent applications related to Artificial Intelligence (AI) across different countries in the year 2020. 
+        The map is color-coded based on the number of patent applications, with a darker color indicating a higher number of patents.
+        The data has been sourced from international patent databases and is focused on patent applications specifically related to AI technologies.
+        Countries without available data are displayed in light gray.
+    </p>
+
+    <!-- Div container where the map will be rendered -->
+    <div id="map"></div>
+    <div id="bubble"></div>
+</body>
+
+<script>
+    const chartSpec = "map.vg.json";
+
+    vegaEmbed("#map", chartSpec)
+        .then(result => {
+            const view = result.view;
+        })
+        .catch(error => {
+            console.error("Error embedding the Vega chart:", error);
+        });
+</script>
+<script>
+    const chartSpec1 = "bubble_plot.vg.json";
+
+    vegaEmbed("#bubble", chartSpec1)
+        .then(result => {
+            const view = result.view;
+        })
+        .catch(error => {
+            console.error("Error embedding the Vega chart:", error);
+        });
+</script>
+</html>
