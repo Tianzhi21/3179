@@ -38,9 +38,15 @@
             margin: 20px 0;
         }
 
-        #map, #bubble, #stack {
+        #map, #bubble, #stack, #radar {
             width: 100%;
             min-height: 400px;
+        }
+
+        .remark {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #777;
         }
     </style>
 </head>
@@ -55,12 +61,13 @@
         Countries without available data are displayed in light gray.
     </p>
 
+
+
     <!-- Div container where the visualizations will be rendered -->
     <div class="chart-container" id="stack"></div>
     <div class="chart-container" id="map"></div>
     <div class="chart-container" id="bubble"></div>
     <div class="chart-container" id="radar"></div>
-
 
     <!-- Embedding Vega charts -->
     <script>
@@ -82,22 +89,27 @@
                 console.error("Error embedding the Vega bubble chart:", error);
             });
 
-            const stackSpec = "stacked_bar_chart.vg.json";
+        const stackSpec = "stacked_bar_chart.vg.json";
         vegaEmbed("#stack", stackSpec)
             .then(result => {
                 const view = result.view;
             })
             .catch(error => {
                 console.error("Error embedding the Vega stacked bar chart:", error);
-            });        
-            const radarSpec = "radar_chart.vg.json";
+            });
+
+        const radarSpec = "radar_chart.vg.json";
         vegaEmbed("#radar", radarSpec)
             .then(result => {
                 const view = result.view;
             })
             .catch(error => {
-                console.error("Error embedding the Vega stacked bar chart:", error);
+                console.error("Error embedding the Vega radar chart:", error);
             });
     </script>
+        <!-- Remark Section -->
+    <p class="remark">
+        This visualization is created by Teoh Tian Zhi. Data sources: <a href="https://ourworldindata.org/artificial-intelligence" target="_blank">Our World in Data</a> and <a href="https://www.statista.com/outlook/tmo/artificial-intelligence/australia#market-size" target="_blank">Statista</a>.
+    </p>
 </body>
 </html>
