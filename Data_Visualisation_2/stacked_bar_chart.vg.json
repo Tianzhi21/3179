@@ -1,0 +1,38 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 600,
+    "height": 400,
+    "title": "Global Corporate Investment in AI by Entity Type (2013-2023)",
+    "data": {
+        "url": "data/investment.csv"
+    },
+    "transform": [
+        {
+            "filter": "datum['Entity'] != null"
+        }
+    ],
+    "mark": "bar",
+    "encoding": {
+        "x": {
+            "field": "Year",
+            "type": "ordinal",
+            "title": "Year"
+        },
+        "y": {
+            "aggregate": "sum",
+            "field": "Global corporate investment in AI",
+            "type": "quantitative",
+            "title": "Total Investment (USD)"
+        },
+        "color": {
+            "field": "Entity",
+            "type": "nominal",
+            "title": "Entity Type"
+        },
+        "tooltip": [
+            {"field": "Entity", "type": "nominal", "title": "Entity Type"},
+            {"field": "Year", "type": "ordinal", "title": "Year"},
+            {"aggregate": "sum", "field": "Global corporate investment in AI", "type": "quantitative", "title": "Investment (USD)"}
+        ]
+    }
+}

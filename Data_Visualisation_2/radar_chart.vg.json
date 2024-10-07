@@ -1,0 +1,248 @@
+{
+    "$schema": "https://vega.github.io/schema/vega/v5.json",
+    "description": "Radar chart displaying various metrics for selected countries.",
+    "width": 400,
+    "height": 400,
+    "padding": 40,
+    "autosize": {"type": "none", "contains": "padding"},
+  
+    "signals": [
+      {"name": "radius", "update": "width / 2"},
+      {
+        "name": "selectedCountry",
+        "value": "Australia",
+        "bind": {
+          "input": "select",
+          "options": [
+            "USA",
+            "Germany",
+            "Canada",
+            "UK",
+            "Japan",
+            "China",
+            "Australia"
+          ]
+        }
+      }
+    ],
+  
+    "data": [
+      {
+        "name": "table",
+        "values": [
+          {"key": "Talent", "value": 100.0, "country": "USA"},
+          {"key": "Infrastructure", "value": 94.02, "country": "USA"},
+          {"key": "Operating Environment", "value": 64.56, "country": "USA"},
+          {"key": "Research", "value": 100.0, "country": "USA"},
+          {"key": "Development", "value": 100.0, "country": "USA"},
+          {"key": "Government Strategy", "value": 77.39, "country": "USA"},
+          {"key": "Commercial", "value": 100.0, "country": "USA"},
+          
+          {"key": "Talent", "value": 90.0, "country": "Germany"},
+          {"key": "Infrastructure", "value": 85.0, "country": "Germany"},
+          {"key": "Operating Environment", "value": 80.0, "country": "Germany"},
+          {"key": "Research", "value": 90.0, "country": "Germany"},
+          {"key": "Development", "value": 80.0, "country": "Germany"},
+          {"key": "Government Strategy", "value": 75.0, "country": "Germany"},
+          {"key": "Commercial", "value": 85.0, "country": "Germany"},
+          
+          {"key": "Talent", "value": 85.0, "country": "Canada"},
+          {"key": "Infrastructure", "value": 80.0, "country": "Canada"},
+          {"key": "Operating Environment", "value": 78.0, "country": "Canada"},
+          {"key": "Research", "value": 88.0, "country": "Canada"},
+          {"key": "Development", "value": 85.0, "country": "Canada"},
+          {"key": "Government Strategy", "value": 73.0, "country": "Canada"},
+          {"key": "Commercial", "value": 90.0, "country": "Canada"},
+      
+          {"key": "Talent", "value": 88.0, "country": "UK"},
+          {"key": "Infrastructure", "value": 82.0, "country": "UK"},
+          {"key": "Operating Environment", "value": 75.0, "country": "UK"},
+          {"key": "Research", "value": 85.0, "country": "UK"},
+          {"key": "Development", "value": 80.0, "country": "UK"},
+          {"key": "Government Strategy", "value": 70.0, "country": "UK"},
+          {"key": "Commercial", "value": 87.0, "country": "UK"},
+      
+          {"key": "Talent", "value": 92.0, "country": "Japan"},
+          {"key": "Infrastructure", "value": 90.0, "country": "Japan"},
+          {"key": "Operating Environment", "value": 82.0, "country": "Japan"},
+          {"key": "Research", "value": 90.0, "country": "Japan"},
+          {"key": "Development", "value": 88.0, "country": "Japan"},
+          {"key": "Government Strategy", "value": 80.0, "country": "Japan"},
+          {"key": "Commercial", "value": 91.0, "country": "Japan"},
+          
+          {"key": "Talent", "value": 89.0, "country": "China"},
+          {"key": "Infrastructure", "value": 88.0, "country": "China"},
+          {"key": "Operating Environment", "value": 77.0, "country": "China"},
+          {"key": "Research", "value": 85.0, "country": "China"},
+          {"key": "Development", "value": 82.0, "country": "China"},
+          {"key": "Government Strategy", "value": 78.0, "country": "China"},
+          {"key": "Commercial", "value": 88.0, "country": "China"},
+      
+          {"key": "Talent", "value": 87.0, "country": "Australia"},
+          {"key": "Infrastructure", "value": 83.0, "country": "Australia"},
+          {"key": "Operating Environment", "value": 80.0, "country": "Australia"},
+          {"key": "Research", "value": 86.0, "country": "Australia"},
+          {"key": "Development", "value": 82.0, "country": "Australia"},
+          {"key": "Government Strategy", "value": 76.0, "country": "Australia"},
+          {"key": "Commercial", "value": 84.0, "country": "Australia"}
+        ]
+      },
+      {
+        "name": "filteredTable",
+        "source": "table",
+        "transform": [
+          {
+            "type": "filter",
+            "expr": "datum.country === selectedCountry"
+          }
+        ]
+      }
+    ],
+  
+    "scales": [
+      {
+        "name": "angular",
+        "type": "point",
+        "range": {"signal": "[-PI, PI]"},
+        "padding": 0.5,
+        "domain": {"data": "table", "field": "key"}
+      },
+      {
+        "name": "radial",
+        "type": "linear",
+        "range": {"signal": "[0, radius]"},
+        "zero": true,
+        "nice": false,
+        "domain": {"data": "table", "field": "value"},
+        "domainMin": 0
+      },
+      {
+        "name": "color",
+        "type": "ordinal",
+        "domain": ["USA", "Germany", "Canada", "UK", "Japan", "China", "Australia"],
+        "range": ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2"]
+      }
+    ],
+  
+    "encode": {
+      "enter": {
+        "x": {"signal": "radius"},
+        "y": {"signal": "radius"}
+      }
+    },
+  
+    "marks": [
+      {
+        "type": "group",
+        "name": "categories",
+        "zindex": 1,
+        "from": {
+          "facet": {"data": "filteredTable", "name": "facet", "groupby": ["country"]}
+        },
+        "encode": {
+          "enter": {
+            "opacity": {"value": 1}  
+          }
+        },
+        "marks": [
+          {
+            "type": "line",
+            "name": "category-line",
+            "from": {"data": "facet"},
+            "encode": {
+              "enter": {
+                "interpolate": {"value": "linear-closed"},
+                "x": {"signal": "scale('radial', datum.value) * cos(scale('angular', datum.key))"},
+                "y": {"signal": "scale('radial', datum.value) * sin(scale('angular', datum.key))"},
+                "stroke": {"scale": "color", "field": "country"},
+                "strokeWidth": {"value": 2},
+                "fill": {"value": "lightblue"},
+                "fillOpacity": {"value": 0.2}
+              }
+            }
+          },
+          {
+            "type": "text",
+            "name": "value-text",
+            "from": {"data": "category-line"},
+            "encode": {
+              "enter": {
+                "x": {"signal": "datum.x"},
+                "y": {"signal": "datum.y"},
+                "text": {"signal": "datum.datum.value"},
+                "align": {"value": "center"},
+                "baseline": {"value": "middle"},
+                "fill": {"value": "black"}
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "rule",
+        "name": "radial-grid",
+        "from": {"data": "table"},
+        "zindex": 0,
+        "encode": {
+          "enter": {
+            "x": {"value": 0},
+            "y": {"value": 0},
+            "x2": {"signal": "radius * cos(scale('angular', datum.key))"},
+            "y2": {"signal": "radius * sin(scale('angular', datum.key))"},
+            "stroke": {"value": "lightgray"},
+            "strokeWidth": {"value": 1}
+          }
+        }
+      },
+      {
+        "type": "text",
+        "name": "key-label",
+        "from": {"data": "table"},
+        "zindex": 1,
+        "encode": {
+          "enter": {
+            "x": {"signal": "(radius + 5) * cos(scale('angular', datum.key))"},
+            "y": {"signal": "(radius + 5) * sin(scale('angular', datum.key))"},
+            "text": {"field": "key"},
+            "align": [
+              {
+                "test": "abs(scale('angular', datum.key)) > PI / 2",
+                "value": "right"
+              },
+              {
+                "value": "left"
+              }
+            ],
+            "baseline": [
+              {
+                "test": "scale('angular', datum.key) > 0", "value": "top"
+              },
+              {
+                "test": "scale('angular', datum.key) == 0", "value": "middle"
+              },
+              {
+                "value": "bottom"
+              }
+            ],
+            "fill": {"value": "black"},
+            "fontWeight": {"value": "bold"}
+          }
+        }
+      },
+      {
+        "type": "line",
+        "name": "outer-line",
+        "from": {"data": "radial-grid"},
+        "encode": {
+          "enter": {
+            "interpolate": {"value": "linear-closed"},
+            "x": {"field": "x2"},
+            "y": {"field": "y2"},
+            "stroke": {"value": "lightgray"},
+            "strokeWidth": {"value": 1}
+          }
+        }
+      }
+    ]
+  }
+  
