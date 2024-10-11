@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+    <title>Global Trend of AI and Australia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-color: #d1e7be; /* Light green background */
+        }
+
+        h1 {
+            margin-top: 20px;
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* Add text shadow */
+        }
+        h4{
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        }
+
+        p {
+            color: #333; /* Darker color for better contrast */
+            line-height: 1.6;
+            padding: 10px;
+            text-align: left;
+            font-weight: 500; /* Slightly bolder text */
+        }
+
+        .chart-container {
+            width: 100%;
+            min-height: 400px;
+            margin-bottom: 100px; /* Add margin below each chart container */
+        }
+
+        .map-container {
+            flex: 3; /* Takes up more space */
+            min-height: 400px;
+            padding-right: 15px; /* Optional: Add padding to the right of the map */
+        }
+
+        .map-text-container {
+            flex: 1; /* Takes up less space */
+            margin-left: auto; /* Push the text container to the right */
+            padding-left: 15px; /* Add padding to the left */
+            padding-top: 10px; /* Add padding at the top for spacing */
+            max-width: 300px; /* Optional: Set a max width for the text container */
+        }
+
+        #map {
+            display: flex; /* Flexbox to arrange map and text side by side */
+            justify-content: space-between; /* Space between map and text */
+            align-items: flex-start; /* Align items to the top */
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .map-text {
+                flex-direction: column; /* Stack on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Global Trend of AI and Australia</h1>
+
+        <p>The data visualizations provide valuable insights into the global trends of Artificial Intelligence (AI) and highlight Australia’s significant contributions to the field. By examining AI job applications, government strategies, and AI index scores, we can discern patterns that reflect Australia’s commitment to advancing AI technologies.</p>
+
+        <p>As countries compete for leadership in AI innovation, it becomes increasingly important to understand the underlying data. This visualization not only illustrates Australia’s current standing but also emphasizes the need for continuous investment in research, talent development, and collaborative initiatives to enhance its position in the global AI landscape.</p>
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="remarks-container">
+                    <h4>Remarks on AI Investment Trends</h4>
+                    <p>The growing trend of Artificial Intelligence (AI) investment is evident in the increasing funding from both public and private sectors. Australia has been making significant strides in AI investments, with a focus on fostering innovation and developing infrastructure. This trend reflects a broader global recognition of AI's potential to drive economic growth and improve various sectors, including healthcare, finance, and education.</p>
+                    <p>By prioritizing investments in AI, Australia aims to create a robust ecosystem that supports research, development, and the commercialization of AI technologies. Such initiatives are vital for staying competitive in the global AI landscape, and they underline the necessity for collaboration among government, academia, and industry stakeholders.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="bar-container" id="bar"></div>
+            </div>
+        </div>
+        
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <div class="map-container" id="map"></div>
+            </div>
+            <div class="col-md-4">
+                <div class="map-text-container">
+                    <h4>Job application relating to AI around the world</h4>
+                    <p>
+                        This visualization represents the total number of job applications related to Artificial Intelligence (AI) across different countries in the year 2020.
+                        A darker colour will indicate a higher number of applications for that country. As we can see Australia is still doing quite well in this field.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="map-text-container" id="radar"></div>
+            </div>
+            <div class="col-md-6">
+                <div class="chart-container" id="bubble"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Conclusion</h4>
+                <p>
+                    As the country continues to prioritize government strategies, talent development, and investment in research, it stands to benefit significantly from its growing AI ecosystem. The data indicates that Australia is well-positioned to capitalize on emerging opportunities in AI, making it a critical player in the regional and global context.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const mapSpec = "map.vg.json";
+        vegaEmbed("#map", mapSpec)
+            .then(result => {
+                const view = result.view;
+            })
+            .catch(error => {
+                console.error("Error embedding the Vega map chart:", error);
+            });
+
+        const bubbleSpec = "bubble_plot.vg.json";
+        vegaEmbed("#bubble", bubbleSpec)
+            .then(result => {
+                const view = result.view;
+            })
+            .catch(error => {
+                console.error("Error embedding the Vega bubble chart:", error);
+            });
+
+        const barSpec = "stacked_bar_chart.vg.json";
+        vegaEmbed("#bar", barSpec)
+            .then(result => {
+                const view = result.view;
+            })
+            .catch(error => {
+                console.error("Error embedding the Vega bar chart:", error);
+            });
+
+        const radarSpec = "radar_chart.vg.json";
+        vegaEmbed("#radar", radarSpec)
+            .then(result => {
+                const view = result.view;
+            })
+            .catch(error => {
+                console.error("Error embedding the Vega radar chart:", error);
+            });
+    </script>
+</body>
+</html>
